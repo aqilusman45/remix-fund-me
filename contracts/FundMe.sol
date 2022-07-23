@@ -19,6 +19,11 @@ contract FundMe {
     // payable modifier ensures that the function
     // can send and receive Ether.
 
+    // lets maintain records of funders
+    address[] public funders;
+
+    // also lets maintain how much each sender funded
+    mapping(address => uint256) public fundsRegister;
     int256 public minimumUSD = 50 * 1e18;
 
     function fund() public payable {
@@ -46,6 +51,8 @@ contract FundMe {
             "Donation amount too low!"
         ); // all the transactions occur in smallest unit of eth i.e is Wei.
         // so 1e18 is equal to 1000000000000000000 = 1 eth.
+        funders.push(msg.sender);
+        fundsRegister[msg.sender] = msg.value;
     }
 
     AggregatorV3Interface internal priceFeed;
