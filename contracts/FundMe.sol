@@ -65,7 +65,7 @@ contract FundMe {
         ); // all the transactions occur in smallest unit of eth i.e is Wei.
         // so 1e18 is equal to 1000000000000000000 = 1 eth.
         funders.push(msg.sender);
-        fundsRegister[msg.sender] = msg.value;
+        fundsRegister[msg.sender] += msg.value;
     }
     // function withdraw() {}
 }
