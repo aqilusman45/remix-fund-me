@@ -67,5 +67,15 @@ contract FundMe {
         funders.push(msg.sender);
         fundsRegister[msg.sender] += msg.value;
     }
-    // function withdraw() {}
+    function withdraw() {
+        for (uint256 fundersAddress = 0; fundersAddress < funders.length; fundersAddress++) {
+            // once the funds are withdrawn
+            // we need to reset funders amount sent to 0
+            // also take out all the funders from the funders array
+            address funder = funders[fundersAddress];
+            fundersAddress[funder] = 0;
+        }
+        // reset the array
+        funders = new address[](0);
+    }
 }
