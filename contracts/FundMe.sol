@@ -80,6 +80,7 @@ contract FundMe {
         fundsRegister[msg.sender] += msg.value;
     }
     function withdraw() {
+        require(msg.sender == owner, "You don't own this contract.");
         for (uint256 fundersAddress = 0; fundersAddress < funders.length; fundersAddress++) {
             // once the funds are withdrawn
             // we need to reset funders amount sent to 0
