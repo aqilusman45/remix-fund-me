@@ -77,5 +77,26 @@ contract FundMe {
         }
         // reset the array
         funders = new address[](0);
+        // actually withdraw the funds
+        // there are three different ways to withdraw funds
+        //  1. transfer ( this automatically revers if transaction fails )
+        //     - this keyword refers to contract instance
+        //     - typecasting is required from address to payable address
+        //     - we need to transfer all the balance
+
+        // payable(msg.sender).transfer(address(this).balance);
+
+        // 2. send ( this will onlt revert if the condition is handled )
+        //    - this returns a boolean
+        //    - we need to save the result in a variable and then perform actions
+        //    - based on the results
+      
+      
+        // bool sendSuccess = payable(msg.sender).send(address(this).balance);
+        // require(sendSucess, "Transaction failed");
+
+        // 3. call (recomended)
+        (bool callSuccess, bytes memory dataReturned) = payable(msg.sender).call{ value: address(this).balance }("");
+        require(callSucess, "Transaction failed");
     }
 }
