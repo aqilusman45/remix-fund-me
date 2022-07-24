@@ -9,6 +9,18 @@ pragma solidity ^0.8.0;
 import './PriceConverter.sol';
 
 contract FundMe {
+    address public owner;
+
+    // constructor is a function that runs
+    // immediately when the contract is
+    // instantiated or is deployed in a transaction 
+    constructor () {
+        // so for the fundme contract we want to save
+        // who the deployer of the contract is
+        // and the same person would be the owner as well
+        owner = msg.sender;
+    }
+
     // syntax to import and use libraries
     // We define on what variable type to be boxed
     // with the functions defined in library
