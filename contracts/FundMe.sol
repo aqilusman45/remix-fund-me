@@ -79,8 +79,9 @@ contract FundMe {
         funders.push(msg.sender);
         fundsRegister[msg.sender] += msg.value;
     }
-    function withdraw() {
-        require(msg.sender == owner, "You don't own this contract.");
+    // withdraw is now modified 
+    // to only function of the withdrawer is an owner
+    function withdraw() public onlyOwner {
         for (uint256 fundersAddress = 0; fundersAddress < funders.length; fundersAddress++) {
             // once the funds are withdrawn
             // we need to reset funders amount sent to 0
@@ -111,5 +112,15 @@ contract FundMe {
         // 3. call (recomended)
         (bool callSuccess, bytes memory dataReturned) = payable(msg.sender).call{ value: address(this).balance }("");
         require(callSucess, "Transaction failed");
+    }
+
+    // - modifiers
+    // these are similar to decorators, they add
+    // more functionality to the function they are
+    // modifying, in this case we are modifying withdraw function
+    // with the condition in onlyOwner modifier.
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You don't own this contract.");
+        _; // the underscore indicates that do what the rest of the function then follows.
     }
 }
