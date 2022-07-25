@@ -54,7 +54,7 @@ contract PriceConverter {
         return uint256(price * 1e8);
     }
 
-    function getConversionRate(unint256 ethAmount)
+    function getConversionRate(uint256 ethAmount)
         internal
         view
         returns (int256)
