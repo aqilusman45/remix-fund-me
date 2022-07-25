@@ -1,30 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-
-// these functions are now in a different 
+// these functions are now in a different
 // file and can be used as a library
 // we have changed the accessbility from
 // public to private.
 library PriceConverter {
-    AggregatorV3Interface internal priceFeed;
-
     /**
      * Network: Rinkeby
      * Aggregator: ETH/USD
      * Address: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
      */
 
-    constructor() {
-        priceFeed = AggregatorV3Interface(
-            0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
-        );
-    }
-
-    function getPrice() internal returns (uint256) {
+    function getPrice() internal view returns (uint256) {
         // since we are going to be interacting with an outside chainlink
         // contract we will need following:
         // - ABI -> To know the ABIs for a chainlink function we can simply import
@@ -34,17 +24,19 @@ library PriceConverter {
         // for ETH/USD price we will use this
         // address: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e in Rinkeby Network
 
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(
+            0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
+        );
         (
             ,
             // this syntax is similar to object destructuring in
             // in javascript. each value can be taken out of from there
             // position.
-            int256 price, // price is taken as int since some data can be in uint /*uint startedAt*/
+            int256 price, // price is taken as int since some data can be in uint /*uint startedAt*/ /*uint timeStamp*/
             ,
             ,
 
-        ) = /*uint timeStamp*/
-            /*uint80 answeredInRound*/
+        ) = /*uint80 answeredInRound*/
             priceFeed.latestRoundData();
         // this price is without decimal, so at the time of coding this
         // the price for 1503.66 but price variable will be 1503 since is it is rounded data.
@@ -66,5 +58,4 @@ library PriceConverter {
         uint256 ethInUSD = (ethAmount * price) / 1e18;
         return int256(ethInUSD);
     }
-
 }
