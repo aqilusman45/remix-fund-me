@@ -105,7 +105,7 @@ contract FundMe {
             // we need to reset funders amount sent to 0
             // also take out all the funders from the funders array
             address funder = funders[fundersAddress];
-            fundersAddress[funder] = 0;
+            fundsRegister[funder] = 0;
         }
         // reset the array
         funders = new address[](0);
@@ -128,8 +128,10 @@ contract FundMe {
         // require(sendSucess, "Transaction failed");
 
         // 3. call (recomended)
-        (bool callSuccess, bytes memory dataReturned) = payable(msg.sender).call{ value: address(this).balance }("");
-        require(callSucess, "Transaction failed");
+        (bool callSuccess, 
+        // bytes memory dataReturned // comment since we are not using it
+        ) = payable(msg.sender).call{ value: address(this).balance }("");
+        require(callSuccess, "Transaction failed");
     }
 
     // - modifiers
@@ -141,7 +143,7 @@ contract FundMe {
         // custom errors are takes less space than
         // the strings given as arguments in require
         // this saves up gas
-        if (msg.sender != !_owner) {
+        if (msg.sender != i_owner) {
             revert NotOwner();
         }
         // require(msg.sender == i_owner, "You don't own this contract.");
