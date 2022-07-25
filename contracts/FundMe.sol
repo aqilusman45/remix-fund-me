@@ -18,6 +18,9 @@ import './PriceConverter.sol';
 //   - custom errors
 //   - removing strings from require
 // - revert keyword/function
+// - handle receiving funds without function calls
+//   - implement receive()
+//   - implement fallback()
 error  NotOwner(); // this lives outside the actual contract
 
 contract FundMe {
@@ -143,5 +146,13 @@ contract FundMe {
         }
         // require(msg.sender == i_owner, "You don't own this contract.");
         _; // the underscore indicates that do what the rest of the function then follows.
+    }
+    
+    receive () external payable {
+        fund();
+    }
+
+    fallback() external payable {
+        fund();
     }
 }
