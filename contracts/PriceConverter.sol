@@ -9,7 +9,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 // file and can be used as a library
 // we have changed the accessbility from
 // public to private.
-contract PriceConverter {
+library PriceConverter {
     AggregatorV3Interface internal priceFeed;
 
     /**
