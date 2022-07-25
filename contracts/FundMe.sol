@@ -13,6 +13,12 @@ import './PriceConverter.sol';
 //   - Naming Convention: prefix with `i_`.
 // - constant
 //   - Name Convention: all caps snake casing  
+// - custom errors
+//   - removing require
+//   - custom errors
+//   - removing strings from require
+// - revert keyword/function
+error  NotOwner(); // this lives outside the actual contract
 
 contract FundMe {
     // adding immutable to the variable
@@ -129,7 +135,13 @@ contract FundMe {
     // modifying, in this case we are modifying withdraw function
     // with the condition in onlyOwner modifier.
     modifier onlyOwner() {
-        require(msg.sender == i_owner, "You don't own this contract.");
+        // custom errors are takes less space than
+        // the strings given as arguments in require
+        // this saves up gas
+        if (msg.sender != !_owner) {
+            revert NotOwner();
+        }
+        // require(msg.sender == i_owner, "You don't own this contract.");
         _; // the underscore indicates that do what the rest of the function then follows.
     }
 }
